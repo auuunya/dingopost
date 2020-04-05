@@ -1,0 +1,131 @@
+{{ extends "/default.html" }}
+
+{{ define "body"}}
+<section class="content-header">
+    <h1>
+    {{.Title}}
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li class="active">单页</li>
+    </ol>
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">单页列表</h3>
+            </div>
+            <!-- /.box-header -->
+			{{if eq .User.Role true}}
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-bordered">
+                <tbody><tr>
+                  <th>标题</th>
+                  <th>摘要</th>
+                  <th>时间</th>
+ 				  <th>操作</th>
+                </tr>
+				{{range .Posts}}
+                <tr id="dingo-post-{{ .Id }}">
+                  <td>{{ .Title }}</td>
+                  <td>{{ .Excerpt }}</td>
+                  <td>
+                      <div>{{DateFormat .CreatedAt "%Y-%m-%d"}}</div>
+                  </td>
+				  <td>
+				 {{ if .IsPublished }}
+                 {{ else }}
+                <p class="status mdl-color-text--amber">
+				<i class="material-icons md-18 f-left">description</i>draft</p>
+                {{ end }}
+                <div class="f-right" style="margin:12px 0 0 0;float:left">
+                  {{ if .IsPublished }}
+                  <a href="{{ .Url }}">
+                    <i class="fa fa-eye">查看</i>
+                  </a>
+                  {{ else }}
+                  <button href="{{ .Url }}" disabled>
+                    <i class="fa fa-eye">查看</i>
+                  </button>
+                  {{ end }}
+                  <a href="/admin/editor/{{ .Id }}/" data-upgraded=",MaterialButton,MaterialRipple">
+                    <i class="fa fa-edit">修改</i>
+                  </a>
+                  <a rel="{{ .Id }}" class="delete-post">
+                    <i class="fa fa-close">删除</i>
+                  </a>
+                </div>
+				  </td>
+                </tr>
+				{{end}}
+              </tbody>
+			</table>
+            </div>
+			{{else}}
+			<div class="box-body table-responsive no-padding">
+              <table class="table table-bordered">
+                <tbody><tr>
+                  <th>标题</th>
+                  <th>时间</th>
+ 				  <th>操作</th>
+                </tr>
+				{{range .Posts}}
+                <tr id="dingo-post-{{ .Id }}">
+                  <td>{{ .Title }}</td>
+                  <td>
+                      <div>{{DateFormat .CreatedAt "%Y-%m-%d"}}</div>
+                  </td>
+				  <td>
+				 {{ if .IsPublished }}
+                 {{ else }}
+                <p class="status mdl-color-text--amber">
+				<i class="material-icons md-18 f-left">description</i>draft</p>
+                {{ end }}
+                <div class="f-right" style="margin:12px 0 0 0;float:left">
+                  {{ if .IsPublished }}
+                  <a href="{{ .Url }}">
+                    <i class="fa fa-eye">查看</i>
+                  </a>
+                  {{ else }}
+                  <button href="{{ .Url }}" disabled>
+                    <i class="fa fa-eye">查看</i>
+                  </button>
+                  {{ end }}
+                  <a href="/admin/editor/{{ .Id }}/" data-upgraded=",MaterialButton,MaterialRipple">
+                    <i class="fa fa-edit">修改</i>
+                  </a>
+                  <a rel="{{ .Id }}" class="delete-post">
+                    <i class="fa fa-close">删除</i>
+                  </a>
+                </div>
+				  </td>
+                </tr>
+				{{end}}
+              </tbody>
+			</table>
+            </div>
+			{{end}}
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+			  <div class="pull-left" style="margin:5px 0 0 5px;">
+				  <a href="/admin/editor/post">
+				    <i class="fa fa-plus"> 添加</i>
+				  </a>
+			  </div>
+              <ul class="pagination pagination-sm no-margin pull-right">
+                <li><a href="#">«</a></li>
+                {{range .Pager.PageSlice}}
+                <li>
+                	<a href="/admin/pages/?page={{.}}">{{.}}</a>
+			    </li>
+               {{end}}
+                <li><a href="#">»</a></li>
+              </ul>
+            </div>
+          </div>
+		</div>
+	</div>
+</section>
+{{end}}

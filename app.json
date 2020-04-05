@@ -1,0 +1,7 @@
+{
+  "name": "Dingo Post",
+  "description": "Blog engine written in Go",
+  "repository": "https://github.com/mu1er/dingopost",
+  "keywords": ["blog"],
+  "success_url": "/signup"
+}

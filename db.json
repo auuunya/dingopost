@@ -1,0 +1,7 @@
+{
+	"db_host":"127.0.0.1",
+	"db_port":3306,
+	"db_user":"your name",
+	"db_pass":"your pass",
+	"db_name":"dingo"
+}

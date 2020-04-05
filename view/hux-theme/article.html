@@ -1,0 +1,116 @@
+{{ extends "/default.html" }}
+{{ define "content"}}
+<style type="text/css">
+    header.intro-header{
+        height: 500px;
+        overflow: hidden;
+    }
+    header iframe{
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+    /* Override Nav Style */
+/*    {% if page.navcolor == "invert" %}
+        .navbar-custom .nav li a,
+        .navbar-custom .nav li a:hover,
+        .navbar-custom .navbar-brand,
+        .navbar-custom .navbar-brand:hover {color:#777;}
+        .navbar-default .navbar-toggle .icon-bar {background-color:#777;}
+
+    {% endif %}*/
+</style>
+<header class="intro-header" style="background-image:url(/images/home-bg.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <div class="tags">
+                            {{range .Post.Tags}}
+                            <a class="tag" href="{{.Url}}" title="">{{.Name}}</a>
+                            {{end}}
+                        </div>
+                        <h1>{{ .Post.Title }}</h1>
+                        <span class="meta">Posted by <a href="#" title="{{ .Post.Author.Name }}">{{ .Post.Author.Name }}</a>,  <time datetime="{{DateFormat .Post.PublishedAt "%Y-%m-%d" }}">{{ DateFormat .Post.PublishedAt "%b %d, %Y"}}</time></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+</header>
+
+<article>
+    <div class="container">
+        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 postlist-container">
+            {{Html .Post.Html }}
+            <hr style="visibility: hidden;">
+        </div>
+		{{ if .Post.AllowComment }}
+		<div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 postlist-container">
+			<div class="box box-widget">
+				<div class="box-header with-border">
+					<h3>评论</h3>
+				</div>
+			<div id="comment-list">
+				{{ range .Post.Comments }}
+				{{ include "comment.html" }}
+					<div id="media">
+						{{ range .Children }}
+						{{ include "comment.html" }}
+					<div id="media">
+						{{ range .Children }}
+						{{ include "comment.html" }}
+						{{ end }}
+					</div>
+					{{ end }}
+				</div>
+			 {{ end }}
+			</div>
+			<button id="comment-show"  class="btn btn-default">评论</button>
+							<form id="comment-form" class="hide" role="form" action="/comment/{{.Content.Id}}/" method="post">
+								<div class="box-body">
+					                <div class="row">
+										<div class="col-xs-3">
+										  <label>用户名</label>
+						                  <input class="form-control" id="author" name="author" type="text" aria-required="true" required="required">
+						                </div>
+						                <div class="col-xs-3">
+										  <label>邮　箱</label>
+						                  <input class="form-control" id="email" name="email" type="text" aria-required="true" required="required">
+						                </div>
+						                <div class="col-xs-3">
+										  <label>个人网站</label>
+						                  <input class="form-control" id="website" name="website" type="text" aria-required="true" required="required">
+						                </div>
+									</div>
+								</div>
+								<input id="comment-parent" type="hidden" value="0" name="pid"/>
+							 	<div class="form-group">
+							        <label>评	论</label>
+							        <textarea id="comment-content" class="form-control" name="comment" style="width:74.5%;" rows="8" required="required"></textarea>
+							    </div>
+								<button class="btn btn-default">Submit</button>
+								<button id="comment-cancel" class="btn btn-default" type="button">Cancel</button>
+							</form>
+							<script type="text/template" id="comment-tpl">
+								<div id="" class="media">
+									<div class="media-left">
+										<img class="media-object" src="" alt="" class="comment-avatar">
+									</div>
+										<div class="media-body">
+											<div class="media-heading"><a href="" id="comment-name" class="comment-name"></a>
+											<span style="float:right;" class="comment-message"></span>
+											</div>
+											<p class="text" class="comment-content"></p>
+									    </div>
+									<hr>
+								</div>
+				</script>
+			</div>
+		</div>
+	{{ end }}
+    </div>
+</article>
+
+
+
+{{end}}

@@ -1,0 +1,17 @@
+<div id="comment-{{ .Id }}" class="media">
+	<div class="media-left">
+		<img class="media-object" src="{{ .Avatar}}" alt="{{ .Avatar }}" class="comment-avatar">
+	</div>
+		<div class="media-body">
+			<div class="media-heading"><a {{ if .Website }} href="{{ .Website }}" {{ end }} id="comment-name" class="comment-name">{{ .Author }}</a>
+			<span style="float:right;" class="comment-message">{{ DateFormat .CreatedAt "%B %d, %Y at %H:%M" }}</span>
+			</div>
+			
+			{{if .Parent}}
+	        <i class="fa fa-reply" aria-hidden="true"></i>in response to <a href="#comment-{{ .ParentComment.Id }}"><b>{{ .ParentComment.Author }}</b></a>
+	        {{end}}
+			<p class="text" class="comment-content">{{Html .Content }}</p>
+			<button rel="{{ .Id }}" class="comment-reply btn btn-default" aria-label="" >回复</button>
+	    </div>
+	<hr>
+</div>

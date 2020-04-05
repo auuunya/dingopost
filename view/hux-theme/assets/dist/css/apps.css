@@ -1,0 +1,28 @@
+.container .postlist-container p img{
+	width:100%;
+}
+.post-preview{
+	position:relative;
+}
+
+.col-app-right{
+	width:200px;
+	height:96px;
+	position:absolute;
+	bottom:0;
+	right:10px;
+}
+.col-app-right img{
+	height:100%;
+	width:100%;
+}
+.col-app-right img{
+	cursor: pointer;  
+    transition: all 0.6s; 
+}
+.col-app-right img:hover{  
+    transform: scale(1.3);  
+}  
+.post-preview a:link{
+	text-decoration:none;
+}

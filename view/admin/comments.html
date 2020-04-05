@@ -1,0 +1,101 @@
+{{ extends "/default.html" }}
+
+{{ define "body"}}
+<section class="content-header">
+    <h1>
+    {{.Title}}
+    </h1>
+    <ol class="breadcrumb">
+        <li><a href="/admin"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li class="active">评论</li>
+    </ol>
+</section>
+<section class="content">
+	<div class="row">
+		<div class="col-xs-12">
+			<div class="box">
+            <div class="box-header with-border">
+              <h3 class="box-title">评论列表</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body table-responsive no-padding">
+              <table class="table table-bordered">
+                <tbody><tr>
+                  <th>用户</th>
+                  <th>留言</th>
+                  <th>回复</th>
+                  <th>提交时间</th>
+                  <th>操作</th>
+                </tr>
+				{{range .Comments}}
+                <tr id="comment-{{ .Id }}">
+                  <td>
+				  <!--<img src="{{.Avatar}}" alt="Image" class="circle responsive-img">-->
+                  	{{ .Author }}
+				  </td>
+                  <td>{{ Html .Content }}</td>
+				  <td>{{ .PostId }}</td>
+                  <td>
+                    <div>{{ DateFormat .CreatedAt "%Y-%m-%d %H:%M" }}</div>
+                  </td>
+				  <td>
+				 {{ if .Approved }}
+                  <a rel="{{ .Id }}" disabled>
+                    <i class="fa fa-check">审核</i>
+                  </a>
+                  {{ else }}
+                  <a rel="{{ .Id }}" class="comment-approve">
+                    <i class="fa fa-close">未审核</i>
+                  </a>
+                  {{ end }}
+                  <a rel="{{ .Id }}" class="comment-reply">
+                    <i class="fa fa-reply">回复</i>
+                  </a>
+                  <a rel="{{ .Id }}" class="comment-delete">
+                    <i class="fa fa-close">删除</i>
+                  </a>
+				  </td>
+                </tr>
+				{{end}}
+				<tr id="comment-block" style="display:none;">
+                <td colspan="5">
+                  <div class="row col-md-6">
+                    <form id="comment-form" action="/admin/comments/" method="POST" role="form">
+                      <div class="mdl-textfield mdl-js-textfield">
+						<label>回复留言...</label>
+                        <textarea class="form-control" type="text" rows="3" id="content" name="content"></textarea>
+                      </div>
+                      <div class="row pull-right" style="margin-top:3px;margin-right:5px;">
+                        <div>
+                          <button class="btn btn-info">保存</button>
+                          <a id="comment-close">退出</a>
+                        </div>
+                        <input type="hidden" value="0" id="comment-parent" name="pid"/>
+                      </div>
+                    </form>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+			</table>
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer clearfix">
+              <ul class="pagination pagination-sm no-margin pull-right">
+			  <li><a href="#">«</a></li>
+			  {{range .Pager.PageSlice}}
+			   <li>
+               <a href="/admin/comments/?page={{.}}">{{.}}</a>
+			   </li>
+               {{end}}
+			   <li><a href='#'>»</a></li>
+              </ul>
+            </div>
+          </div>
+		</div>
+	</div>
+</section>
+{{end}}
+
+
+

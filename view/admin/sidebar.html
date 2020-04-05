@@ -1,0 +1,66 @@
+<div class="main-sidebar" aria-hidden="true">
+<section class="sidebar" style="height:auto;">
+	<div class="user-panel">
+		<div class="pull-left image">
+			<img src="{{ .User.Avatar }}" class="img-circle">
+		</div>
+		<div class="pull-left info">
+			<p>{{ .User.Name }}</p>
+			<a href="#"><i class="fa fa-circle text-success"></i> 在线</a>
+		</div>
+	</div>
+		<ul class="sidebar-menu" data-widget="tree">
+			<li class="header">主导航</li>
+			<li class='treeview {{if eq .Title "Dashboard"}}active{{end}}'>
+				<a href="/admin/">
+					<i class="fa fa-dashboard"></i> <span>首页</span>
+					<span class="pull-right-container">
+						<i class="fa fa-angle-left pull-right"></i>
+					</span>
+				</a>
+				<ul class="treeview-menu">
+					<li class="active"><a href="/admin/"><i class="fa fa-circle-o"></i>欢迎</a></li>
+				</ul>
+			</li> 
+			<li class="treeview">
+          		<a href="#">
+            		<i class="fa fa-table"></i> <span>内容</span>
+            		<span class="pull-right-container">
+             		<i class="fa fa-angle-left pull-right"></i>
+            		</span>
+          		</a>
+          		<ul class="treeview-menu">
+            	<li><a href="/admin/posts/"><i class="fa fa-circle-o"></i>文章</a></li>
+            	<li><a href="/admin/pages/"><i class="fa fa-circle-o"></i>单页</a></li>
+         		</ul>
+        	</li>
+			<li class='{{if eq .Title "Comments"}}active{{end}}'>
+         	 	<a href="/admin/comments/">
+            	<i class="fa fa-comments-o"></i> <span>留言</span>
+          		</a>
+        	</li>
+			<li class='{{if eq .Title "Profile"}}active{{end}}'>
+         	 	<a href="/admin/profile/">
+            	<i class="fa fa-user"></i> <span>用户</span>
+          		</a>
+        	</li>
+			{{if (eq .User.Role true)}}
+			<li class='{{if eq .Title "Files"}}active{{end}}'>
+         	 	<a href="/admin/files/">
+            	<i class="fa fa-file-zip-o"></i> <span>文件</span>
+          		</a>
+        	</li>
+			<li class='{{if eq .Title "Settings"}}active{{end}}'>
+         	 	<a href="/admin/setting/">
+            	<i class="fa fa-asterisk"></i> <span>设置</span>
+          		</a>
+        	</li>
+			<li class='{{if eq .Title "Monitor"}}active{{end}}'>
+         	 	<a href="/admin/monitor/">
+            	<i class="fa fa-safari"></i> <span>监控</span>
+          		</a>
+        	</li>
+			{{end}}
+		</ul>
+	</section>
+</div>

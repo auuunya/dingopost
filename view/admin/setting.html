@@ -1,0 +1,228 @@
+{{ extends "/default.html" }}
+
+{{ define "body"}}
+<section class="content-header">
+      <h1>
+        {{.Title}}
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> 主页</a></li>
+        <li class="active">设置</li>
+    </ol>
+</section>
+<section class="content">
+        <div class="col-md-12">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#general" data-toggle="tab" aria-expanded="true">常规</a></li>
+              <li class=""><a href="#content" data-toggle="tab" aria-expanded="false">内容</a></li>
+              <li class=""><a href="#tags" data-toggle="tab" aria-expanded="false">导航栏</a></li>
+			  <li class=""><a href="#custom" data-toggle="tab" aria-expanded="false">自定义</a></li>
+			  <li class=""><a href="#aliyun" data-toggle="tab" aria-expanded="false">OSS(阿里云)</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane active" id="general">
+                <div class="box-body">
+				  <form role="form" action="/admin/setting/" method="POST" class="setting-form">
+					  <div class="form-group">
+	                    <label>网站地址</label>
+	                    <input class="form-control" type="url" id="site_url" name="site_url" value="{{ Setting `site_url` }}">
+	                  </div>
+		              <div class="form-group">
+						<label>标题</label>
+		                <input class="form-control" type="text" id="title" name="title" value="{{ Setting `title` }}">
+		              </div>
+		              <div class="form-group">
+						<label>副标题</label>
+		                <input class="form-control" type="text" id="subtitle" name="subtitle" value="{{ Setting `subtitle` }}">
+		              </div>
+		              <div class="form-group">
+						<label>关键字</label>
+		                <input class="form-control" type="text" id="meta_keywords" name="meta_keywords" value="{{ Setting `meta_keywords` }}">
+		              </div>
+		              <div class="form-group">
+						<label>网站描述</label>
+		                <input class="form-control" type="text" id="meta_description" name="meta_description" value="{{ Setting `meta_description` }}">
+		              </div>
+		              <div class="box-footer">
+                		<button type="submit" class="btn btn-primary">保存</button>
+              		  </div>
+		            </form>
+            	</div>
+              </div>
+              <!-- /.tab-pane -->
+			  <div class="tab-pane" id="content">
+                <div class="box-body">
+				  <form role="form" action="/admin/setting/" method="POST" class="setting-form">
+					  <div class="form-group">
+	                    <label>每页显示文章数</label>
+	                    <input class="form-control" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="post_per_page" name="post_per_page" value="{{ Setting `post_per_page` }}">
+	                    <p class="text-muted">请输入数字...</p>
+					  </div>
+		              <div class="form-group">
+						<label>最热文章数</label>
+		                <input class="form-control" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="popular_posts_num" name="popular_posts_num" value="{{ Setting `popular_posts_num` }}">
+		                <p class="text-muted">请输入数字...</p>
+					  </div>
+		              <div class="form-group">
+						<label>最新评论数</label>
+		                <input class="form-control" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="recent_comments_num" name="recent_comments_num" value="{{ Setting `popular_posts_num` }}">
+		            	<p class="text-muted">请输入数字...</p>
+					  </div>
+		              <div class="box-footer">
+                		<button type="submit" class="btn btn-primary">保存</button>
+              		  </div>
+		            </form>
+            	</div>
+              </div>
+			  <div class="tab-pane" id="tags">
+                <div class="box-body">
+				  <form role="form" action="/admin/setting/nav/" method="POST" class="setting-form">
+					 <div id="navigators">
+					  {{range .Navigators}}
+						<div class="row">
+						  <div class="col-xs-5">
+						    <div class="form-group">
+							  <label>Label</label>
+						      <input class="form-control" type="text" name="label" value="{{.Label}}">
+						    </div><!-- /input-group -->
+						  </div><!-- /.col-lg-6 -->
+		                  <div class="col-xs-5">
+						    <div class="form-group">
+							  <label>URL</label>
+						      <input class="form-control" type="text" name="url" value="{{.Url}}">
+						    </div><!-- /input-group -->
+						  </div><!-- /.col-lg-6 -->
+		                  <div style="height:80px;line-height:80px;">
+							 <a class="del-nav" href="#"><i class="fa fa-close"> 删除</i></a>
+						  </div><!-- /.col-lg-6 -->
+						</div>
+					{{end}}
+					</div>
+						<div class="box-footer">
+							<button type="submit" class="btn btn-primary">保存</button>
+                			<a class="btn btn-primary" id="add-nav" rel="#nav-item">添加</a>
+              		  	</div>
+		            </form>
+            	</div>
+              </div>
+			  <div class="tab-pane" id="custom">
+                <div class="box-body">
+				  <form class="setting-form" role="form" action="/admin/setting/custom/" method="POST">
+ 					<div id="custom-settings">
+					  {{range .Custom}}
+						<div class="row">
+						  <div class="col-xs-5">
+						    <div class="form-group">
+							  <label for="key">Key</label>
+						      <input class="form-control" type="text" name="key" value="{{ .Ke }}">
+						    </div><!-- /input-group -->
+						  </div><!-- /.col-lg-6 -->
+		                  <div class="col-xs-5">
+						    <div class="form-group">
+							  <label for="value">Value</label>
+						      <input class="form-control" type="text" name="value" value="{{ .Value }}">
+						    </div><!-- /input-group -->
+						  </div><!-- /.col-lg-6 -->
+		                  <div style="height:80px;line-height:80px;">
+							 <a class="del-custom" href="#"><i class="fa fa-close"> 删除</i></a>
+						  </div><!-- /.col-lg-6 -->
+						</div>
+					{{end}}
+					</div>
+						<div class="box-footer">
+							<button type="submit" class="btn btn-primary">保存</button>
+                			<a class="btn btn-primary" id="add-custom" rel="#custom-item">添加</a>
+              		  	</div>
+		            </form>
+            	</div>
+              </div>
+			  <div class="tab-pane" id="aliyun">
+                <div class="box-body">
+				  <form role="form" action="/admin/setting/oss/" method="POST" class="setting-form">
+				{{if .Oss}}
+					  <div class="form-group">
+	                    <label>AccessKey</label>
+	                    <input class="form-control" type="text" name="accesskey" value="{{.Oss.Accesskey}}">
+	                  </div>
+		              <div class="form-group">
+						<label>SecretKey</label>
+		                <input class="form-control" type="text" name="secretkey" value="{{.Oss.Secretkey}}">
+		              </div>
+		              <div class="form-group">
+						<label>EndPoint</label>
+		                <input class="form-control" type="text" name="endpoint" value="{{.Oss.Endpoint}}">
+		              </div>
+		              <div class="form-group">
+						<label>Bucket</label>
+		                <input class="form-control" type="text" name="bucket" value="{{.Oss.Bucket}}">
+		              </div>
+				{{else}}
+					  <div class="form-group">
+	                    <label>AccessKey</label>
+	                    <input class="form-control" type="text" name="accesskey" value="{{.Accesskey}}">
+	                  </div>
+		              <div class="form-group">
+						<label>SecretKey</label>
+		                <input class="form-control" type="text" name="secretkey" value="{{.Secretkey}}">
+		              </div>
+		              <div class="form-group">
+						<label>EndPoint</label>
+		                <input class="form-control" type="text" name="endpoint" value="{{.Endpoint}}">
+		              </div>
+		              <div class="form-group">
+						<label>Bucket</label>
+		                <input class="form-control" type="text" name="bucket" value="{{.Bucket}}">
+		              </div>
+				{{end}}
+		              <div class="box-footer">
+                		<button type="submit" class="btn btn-primary">保存</button>
+              		  </div>
+		            </form>
+            	</div>
+              </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+  </section>
+<script type="text/template" id="nav-item">
+<div class="row">
+	<div class="col-xs-5">
+		<div class="form-group">
+			<label>Label</label>
+				<input class="form-control" type="text" name="label" value="{{.Label}}">
+					</div>
+				</div>
+		        <div class="col-xs-5">
+					<div class="form-group">
+						<label>URL</label>
+					<input class="form-control" type="text" name="url" value="{{.Url}}">
+					</div>
+				</div>
+		    <div style="height:80px;line-height:80px;">
+		<a class="del-nav" href="#"><i class="fa fa-close"> 删除</i></a>
+	</div>
+</div>
+</script>
+<script type="text/template" id="custom-item">
+<div class="row">
+	<div class="col-xs-5">
+		<div class="form-group">
+			<label for="key">Key</label>
+			<input class="form-control" type="text" name="key" value="{{ .Ke }}">
+		</div>
+	</div>
+	<div class="col-xs-5">
+		<div class="form-group">
+			<label for="value">Value</label>
+			<input class="form-control" type="text" name="value" value="{{ .Value }}">
+		</div>
+	</div>
+	<div style="height:80px;line-height:80px;">
+		<a class="del-custom" href="#"><i class="fa fa-close"> 删除</i></a>
+	</div>
+</div>
+</script>
+{{end}}
